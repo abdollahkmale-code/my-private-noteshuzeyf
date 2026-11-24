@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Private Text</title>
+
+<style>
+body {
+  background: white;
+  color: black;
+  margin: 16px;
+  font-family: monospace;
+}
+
+pre, textarea {
+  font-family: monospace;
+  font-size: 16px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+textarea {
+  width: 100%;
+  min-height: 65vh;
+  border: 1px solid #ddd;
+  padding: 10px;
+  box-sizing: border-box;
+  color: black;
+  background: white;
+}
+
+button {
+  background: white;
+  color: black;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  padding: 9px 16px;
+  margin: 8px 5px 8px 0;
+  font-size: 14px;
+}
+
+#editor {
+  display: none;
+}
+</style>
+</head>
+
+<body>
+
+<div id="viewer">
+  <pre id="content"></pre>
+  <button onclick="editText()">Edit</button>
+</div>
+
+<div id="editor">
+  <textarea id="input"></textarea>
+  <button onclick="saveText()">Save</button>
+  <button onclick="cancelEdit()">Cancel</button>
+</div>
+
+<script>
+const defaultText = `Write your text here...
+
+----------------------------
+
+My personal notes`;
+
+let savedText = localStorage.getItem("my-private-text");
+
+if (savedText === null) {
+  savedText = defaultText;
+}
+
+function showText() {
+  document.getElementById("content").textContent = savedText;
+}
+
+function editText() {
+  document.getElementById("input").value = savedText;
+  document.getElementById("viewer").style.display = "none";
+  document.getElementById("editor").style.display = "block";
+}
+
+function saveText() {
+  savedText = document.getElementById("input").value;
+  localStorage.setItem("my-private-text", savedText);
+  document.getElementById("editor").style.display = "none";
+  document.getElementById("viewer").style.display = "block";
+  showText();
+}
+
+function cancelEdit() {
+  document.getElementById("editor").style.display = "none";
+  document.getElementById("viewer").style.display = "block";
+}
+
+showText();
+</script>
+
+</body>
+</html>
